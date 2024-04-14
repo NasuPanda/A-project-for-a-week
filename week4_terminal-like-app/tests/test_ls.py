@@ -22,4 +22,4 @@ def test_ls_outputs_empty_string_for_empty_directory(empty_directory):
 
 def test_ls_lists_files_and_subdirectories_on_separate_lines(directory_with_contents):
     result = ls(directory_with_contents)
-    assert result == "script.txt\nthumbnail.jpg\ndata"
+    assert result == "data\nscript.txt\nthumbnail.jpg"

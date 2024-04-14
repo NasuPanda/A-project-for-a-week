@@ -18,4 +18,4 @@ def ls(cwd: Directory) -> str:
         return "" # Returns empty string for empty cwd
 
     list_of_files_and_directories = [content.name for content in cwd.contents]
-    return "\n".join(list_of_files_and_directories).sort()
+    return "\n".join(sorted(list_of_files_and_directories))
