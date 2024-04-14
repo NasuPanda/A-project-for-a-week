@@ -16,13 +16,6 @@ from exceptions import NotDirectoryError
 """
 
 @pytest.fixture
-def original_working_dir():
-    """Fixture to store and restore the original working directory"""
-    current_dir = os.getcwd()
-    yield current_dir  # Provide the original directory
-    os.chdir(current_dir)  # Restore after the test
-
-@pytest.fixture
 def valid_directory():
     return "./tests/test_filesystem"
 
