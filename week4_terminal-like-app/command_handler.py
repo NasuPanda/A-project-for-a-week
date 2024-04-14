@@ -1,11 +1,12 @@
 from commands import Command
+from ls import ls
 
 # Define handlers
 def exit_handler():
     return False
 
 def ls_handler():
-    # TODO: Call "ls" function defined outside of this file
+    ls("./") # TODO ls should take cwd as input
     return True
 
 ALLOWED_COMMANDS = [
