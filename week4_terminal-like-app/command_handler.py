@@ -1,21 +1,38 @@
+import os
+
 from commands import Command
+from exceptions import CommandNotFoundError
+from ls import ls
+from cd import cd
 
-# Define handlers
-def exit_handler():
-    return False
+class CommandHandler:
+    def __init__(self) -> None:
+        # Initialize cwd
+        self.cwd = os.getcwd()
+        self.allowed_commands = [
+        Command("exit", self.__exit_handler),
+        Command("ls", self.__ls_handler),
+        Command("cd", self.__cd_handler),
+    ]
 
-def ls_handler():
-    # TODO: Call "ls" function defined outside of this file
-    return True
+    def __exit_handler(self):
+        return False
 
-ALLOWED_COMMANDS = [
-    Command("exit", exit_handler),
-    Command("ls", ls_handler)
-]
+    def __ls_handler(self):
+        print(ls(self.cwd))
+        return True
 
-def handle_command(user_input):
-    for command in ALLOWED_COMMANDS:
-        if user_input == command.name:
-            return command.handler()
-    else:
-        raise ValueError("Command not found")
+    def __cd_handler(self, path: str):
+        self.cwd = cd(path)
+        return True
+
+    def handle_command(self, user_input: str):
+        for command in self.allowed_commands:
+            if command.name in user_input:
+                if "cd" in user_input:
+                    path = user_input.split()[1]
+                    return command.handler(path)
+
+                return command.handler()
+        else:
+            raise CommandNotFoundError("Command not found")
