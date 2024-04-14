@@ -1,21 +1,34 @@
-from filesystem import Directory, File
+import os
 
 
-def ls(cwd: Directory) -> str:
+def ls(path: str) -> str:
     """`ls` command.
 
-    For empty cwd, it returns an empty string.
+    For empty input, this returns an empty string.
 
-    For cwd with contents, it returns files and directories sorted alphabetically.
+    For invalid path, this returns a message to suggest what went wrong.
+
+    For a file path, this returns the name of the file.
+
+    For a directory with contents, this returns files and directories sorted alphabetically.
 
     Args:
-        cwd (Directory): current working directory.
+        path str: current working directory.
 
     Returns:
         str: the output of `ls` command.
     """
-    if not cwd.contents:
-        return "" # Returns empty string for empty cwd
+    # Returns empty string for empty path
+    if not path:
+        return ""
+    # Returns error message when given an invalid path
+    if not os.path.exists(path):
+        return f"{path}: No such file or directory"
+    # Returns the file name when given a file path
+    if os.path.isfile(path):
+        return path
 
-    list_of_files_and_directories = [content.name for content in cwd.contents]
-    return "\n".join(sorted(list_of_files_and_directories))
+    files_and_directories = os.listdir(path)
+    # Ignore hidden files and directories as `ls` does
+    files_and_directories = [name for name in files_and_directories if not name.startswith(".")]
+    return "\n".join(sorted(files_and_directories))
