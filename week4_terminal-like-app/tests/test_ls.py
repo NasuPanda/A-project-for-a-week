@@ -1,14 +1,25 @@
 import pytest
-from ls import ls
 
-# TODO Implement this
-cwd = "./"
+from ls import ls
+from filesystem import Directory, File
 
 @pytest.fixture
-def empty_filesystem():
-    # Here you would set up your mock file system, however you decide to represent it
-    return {}  # An empty dictionary, for a start
+def empty_directory():
+    empty_directory = Directory(name="/", contents=[])
+    return empty_directory
 
-def test_ls_when_cwd_is_empty(empty_filesystem):
-    result = ls(cwd)
+@pytest.fixture
+def directory_with_contents():
+    txt_file = File(name="script.txt")
+    img_file = File(name="thumbnail.jpg")
+    subdir = Directory(name="data", contents=[File("report.csv")])
+    root_directory = Directory(name="/", contents=[txt_file, img_file, subdir])
+    return root_directory
+
+def test_ls_outputs_empty_string_for_empty_directory(empty_directory):
+    result = ls(empty_directory)
     assert result == ""
+
+def test_ls_lists_files_and_subdirectories_on_separate_lines(directory_with_contents):
+    result = ls(directory_with_contents)
+    assert result == "script.txt\nthumbnail.jpg\ndata"
