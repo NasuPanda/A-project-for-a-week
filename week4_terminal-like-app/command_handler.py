@@ -1,8 +1,9 @@
 import os
 
 from commands import Command
-from exceptions import NotDirectoryError, CommandNotFoundError
+from exceptions import CommandNotFoundError
 from ls import ls
+from cd import cd
 
 class CommandHandler:
     def __init__(self) -> None:
@@ -10,18 +11,9 @@ class CommandHandler:
         self.cwd = os.getcwd()
         self.allowed_commands = [
         Command("exit", self.__exit_handler),
-        Command("ls", self.__ls_handler)
+        Command("ls", self.__ls_handler),
+        Command("cd", self.__cd_handler),
     ]
-
-    def __validate_cwd(self, path: str):
-        # When the given path is empty (cwd moves to the root)
-        if path == "":
-            return True
-
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"no such file or directory: {path}")
-        if os.path.isfile(path):
-            raise NotDirectoryError(f"not a directory: {path}")
 
     def __exit_handler(self):
         return False
@@ -30,13 +22,17 @@ class CommandHandler:
         print(ls(self.cwd))
         return True
 
-    def change_current_working_directory(self, path: str) -> None:
-        self.__validate_cwd(path)
-        self.cwd = path
+    def __cd_handler(self, path: str):
+        self.cwd = cd(path)
+        return True
 
     def handle_command(self, user_input: str):
         for command in self.allowed_commands:
-            if user_input == command.name:
+            if command.name in user_input:
+                if "cd" in user_input:
+                    path = user_input.split()[1]
+                    return command.handler(path)
+
                 return command.handler()
         else:
             raise CommandNotFoundError("Command not found")

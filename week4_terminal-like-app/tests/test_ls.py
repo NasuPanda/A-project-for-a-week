@@ -37,22 +37,22 @@ def text_file():
 # Expected result from ls: sorted contents in directory_with_contents
 EXPECTED_OUTPUT_FOR_DIR_WITH_CONTENTS = "subdir_empty\nsubdir_with_contents\ntest2.txt"
 
-def test_ls_outputs_empty_string_for_empty_directory(empty_directory):
+def test_ls_outputs_empty_string_for_empty_directory(empty_directory: str):
     result = ls(empty_directory)
     assert result == ""
 
-def test_ls_outputs_empty_string_for_hidden_file(directory_with_hidden_file):
+def test_ls_outputs_empty_string_for_hidden_file(directory_with_hidden_file: str):
     result = ls(directory_with_hidden_file)
     assert result == ""
 
-def test_ls_output_correct_message_for_invalid_path(invalid_path_name):
+def test_ls_output_correct_message_for_invalid_path(invalid_path_name: str):
     result = ls(invalid_path_name)
     assert result == f"{invalid_path_name}: No such file or directory"
 
-def test_ls_output_file_name_for_file_path(text_file):
+def test_ls_output_file_name_for_file_path(text_file: str):
     result = ls(text_file)
     assert result == text_file
 
-def test_ls_lists_files_and_subdirectories_on_separate_lines(directory_with_contents):
+def test_ls_lists_files_and_subdirectories_on_separate_lines(directory_with_contents: str):
     result = ls(directory_with_contents)
     assert result == EXPECTED_OUTPUT_FOR_DIR_WITH_CONTENTS
