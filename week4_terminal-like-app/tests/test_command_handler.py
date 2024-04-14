@@ -29,6 +29,9 @@ def test_invalid_command_raises_error(command_handler: CommandHandler):
 def test_exit_command_do_not_raise_error(command_handler: CommandHandler):
     command_handler.handle_command("exit")
 
+def test_clear_command_do_not_raise_error(command_handler: CommandHandler):
+    command_handler.handle_command("clear")
+
 def test_ls_command_do_not_raise_error(command_handler: CommandHandler):
     # This will be enough to test that no error is raised
     command_handler.handle_command("ls")
