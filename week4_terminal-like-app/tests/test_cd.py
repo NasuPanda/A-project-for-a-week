@@ -30,18 +30,18 @@ def text_file():
 def abs_path(path: str) -> str:
     return os.path.abspath(path)
 
-def test_cd_for_valid_path(valid_directory: str, original_working_dir: str):
+def test_cd_for_valid_path(valid_directory: str, reset_cwd: str):
     intended_directory = abs_path(os.path.join(os.getcwd(), valid_directory))
     assert cd(valid_directory) == abs_path(os.getcwd())
     assert abs_path(os.getcwd()) == intended_directory
 
-def test_cd_for_non_existed_filepath_raises_error(invalid_path_name, original_working_dir: str):
+def test_cd_for_non_existed_filepath_raises_error(invalid_path_name, reset_cwd: str):
     with pytest.raises(FileNotFoundError) as exception_info:
         cd(invalid_path_name)
     error_message = str(exception_info.value)
     assert error_message == f"no such file or directory: {invalid_path_name}"
 
-def test_cd_for_a_file_raises_error(text_file, original_working_dir: str):
+def test_cd_for_a_file_raises_error(text_file, reset_cwd: str):
     with pytest.raises(NotDirectoryError) as exception_info:
         cd(text_file)
     error_message = str(exception_info.value)
