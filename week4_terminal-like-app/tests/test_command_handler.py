@@ -1,7 +1,6 @@
 import pytest
 
-from command_handler import handle_command
-from constants import ALLOWED_COMMANDS
+from command_handler import handle_command, ALLOWED_COMMANDS
 
 
 def test_exit_handler():
@@ -11,7 +10,7 @@ def test_exit_handler():
 @pytest.mark.parametrize("command", ALLOWED_COMMANDS)
 def test_valid_command_do_not_raise_error(command):
     # This will be enough to test that no error is raised
-    result = handle_command(command)
+    result = handle_command(command.name)
 
 def test_invalid_command():
     with pytest.raises(ValueError) as exception_info:
