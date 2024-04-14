@@ -1,6 +1,7 @@
 import os
 
 from commands import Command
+from exceptions import NotDirectoryError, CommandNotFoundError
 from ls import ls
 
 class CommandHandler:
@@ -17,11 +18,10 @@ class CommandHandler:
         if path == "":
             return True
 
-        # TODO Implement original error
         if not os.path.exists(path):
-            raise ValueError(f"no such file or directory: {path}")
+            raise FileNotFoundError(f"no such file or directory: {path}")
         if os.path.isfile(path):
-            raise ValueError(f"not a directory: {path}")
+            raise NotDirectoryError(f"not a directory: {path}")
 
     def __exit_handler(self):
         return False
@@ -39,4 +39,4 @@ class CommandHandler:
             if user_input == command.name:
                 return command.handler()
         else:
-            raise ValueError("Command not found")
+            raise CommandNotFoundError("Command not found")
