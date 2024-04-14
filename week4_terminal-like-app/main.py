@@ -1,11 +1,21 @@
+import os
+
+from command_handler import handle_command
+
 if __name__ == "__main__":
-    current_directory = "~/projects/2024/A-project-for-a-week/week4_terminal-like-app/"
+    current_directory = os.getcwd()
+    command_prompt = "$> "
 
     while True:
-        prompt = input("$>")
+        user_input = input(command_prompt)
 
-        if prompt == "exit":
-            break
-
-        if prompt == "ls":
-            print("ls")
+        try:
+            command_result = handle_command(user_input)
+        except ValueError:
+            print("Command not found.")
+        else:
+            # When handle_command returns false, this app ends
+            if not command_result:
+                break
+            else:
+                print("Command executed")
