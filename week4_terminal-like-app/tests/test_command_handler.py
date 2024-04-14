@@ -16,4 +16,6 @@ def test_invalid_command():
     with pytest.raises(ValueError) as exception_info:
         handle_command("some_unknown_command")
 
-    assert str(exception_info) == "Command not found"
+    # Get an error message form exception_info
+    error_message = str(exception_info.value)
+    assert error_message == "Command not found"
