@@ -2,6 +2,7 @@ import os
 
 from commands import Command
 from exceptions import CommandNotFoundError
+from clear import clear
 from ls import ls
 from cd import cd
 
@@ -11,12 +12,17 @@ class CommandHandler:
         self.cwd = os.getcwd()
         self.allowed_commands = [
         Command("exit", self.__exit_handler),
+        Command("clear", self.__clear_handler),
         Command("ls", self.__ls_handler),
         Command("cd", self.__cd_handler),
     ]
 
     def __exit_handler(self):
         return False
+
+    def __clear_handler(self):
+        clear()
+        return True
 
     def __ls_handler(self):
         print(ls(self.cwd))
@@ -29,6 +35,8 @@ class CommandHandler:
     def handle_command(self, user_input: str):
         for command in self.allowed_commands:
             if command.name in user_input:
+                # Handling `cd`
+                # NOTE: This implement isn't great
                 if "cd" in user_input:
                     path = user_input.split()[1]
                     return command.handler(path)
