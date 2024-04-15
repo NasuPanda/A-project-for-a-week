@@ -7,18 +7,20 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
+
   backend:
     container_name: backend
     build:
       context: .
       dockerfile: Dockerfile.backend
-    command: uvicorn main:app --host '0.0.0.0' --port 8000
+    command: uvicorn app.main:app --host '0.0.0.0' --port 8000
     volumes:
       - ./backend:/backend
     depends_on:
       - db
     ports:
-      - "3000:3000"
+      - "8000:8000"
+
   frontend:
     container_name: frontend
     build:
