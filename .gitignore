@@ -1,5 +1,10 @@
+# week3
 week3_white_noise_generator/audio/whitenoise_1500s.wav
 week3_white_noise_generator/audio/whitenoise_1800s.wav
+
+# week5
+tmp
+.DS_Store
 
 # Template for a Python project
 # Byte-compiled / optimized / DLL files

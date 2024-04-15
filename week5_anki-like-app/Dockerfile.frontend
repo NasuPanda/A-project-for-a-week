@@ -1,0 +1,26 @@
+FROM node:18.7.0-alpine
+
+# Create the working directory and ensure the 'node' user owns it
+RUN mkdir -p /frontend && chown node:node /frontend
+WORKDIR /frontend
+
+# Install system dependencies
+RUN apk update \
+    && apk add --no-cache git ca-certificates wget \
+    && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+    && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk \
+    && apk add --no-cache glibc-2.30-r0.apk
+
+# Switch to 'node' user before installing dependencies
+USER node
+
+# Copy package files and install dependencies
+COPY --chown=node:node frontend/package.json frontend/yarn.lock ./
+RUN yarn install
+
+# Copy the rest of the application files
+COPY --chown=node:node ./frontend ./
+
+EXPOSE 3000
+
+CMD ["yarn", "dev"]
