@@ -1,0 +1,17 @@
+{
+  "Rules": [
+    {
+      "ID": "expire-old-files",
+      "Filter": {
+        "Prefix": ""
+      },
+      "Status": "Enabled",
+      "Expiration": {
+        "Days": 365
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 90
+      }
+    }
+  ]
+}

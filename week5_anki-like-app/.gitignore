@@ -1,1 +1,5 @@
 data
+
+# Credentials (for terraform)
+*.tfvars
+.terraform/
